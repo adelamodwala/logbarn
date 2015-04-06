@@ -26,10 +26,13 @@
   {{ content_for_header }}
 
   {{ 'style.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'logbarn.css' | asset_url | stylesheet_tag }}
   {{ 'social/social-icons.css' | global_asset_url | stylesheet_tag }}
   {{ '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' | stylesheet_tag }}
   
   {{ '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic' | stylesheet_tag }}
+
+  {{ <link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'> | stylesheet_tag }}
 
   <!--[if lt IE 9]>
   {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
@@ -56,9 +59,9 @@
 
     <header class="row">
       
-      <div class="social-links half column left-aligned">
+{% comment %}      <div class="social-links half column left-aligned">
       {% include 'social-links' %}
-      </div>      
+      </div>      {% endcomment %}
       
       {% comment %}
         Note on checkout link: it is a good idea to avoid linking to /checkout directly because shops that use 
@@ -68,10 +71,6 @@
       {% endcomment %}
       
       <div class="half column right-aligned">
-              
-        <div class="cart-link">
-          <a href="/cart"><img src="{{ 'cart.svg' | asset_url }}" /> {{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }} ({{ cart.total_price | money }})</a>
-        </div>
             
         {% if shop.customer_accounts_enabled %}
         <div class="customer-links">
@@ -83,10 +82,10 @@
             or {{ 'Create an account' | customer_register_link }}
             {% endif %}
           {% endif %}
-        </div>
+        </div><!-- end .customer-links -->
         {% endif %}
         
-      </div>
+      </div><!-- end .half.column.right-aligned -->
       
       {% comment %}
         It would be nice if the logo was a shop setting, rather than a theme setting.
