@@ -9,6 +9,166 @@ var switchImage = function(newImageSrc, newImage, mainImageDomEl) {
   jQuery(mainImageDomEl).attr('src', newImageSrc);  
 };
 
+var owlArgs = {
+  pagination: false,
+  singleItem: true,
+  autoHeight: true,
+  slideSpeed: 300,
+  paginationSpeed: 300,
+  lazyLoad: true,
+  touchDrag: true,
+  mouseDrag: true
+}
+
+var partnerOwlArgs = {
+  pagination: false,
+  slideSpeed: 300,
+  paginationSpeed: 300,
+  touchDrag: true,
+  mouseDrag: true,
+  items: 4,
+  itemsScaleUp: true
+}
+
+function sameHeight(items) {
+  var maxHeight = 0;
+  items.css('height', '');
+  items.each(function() {
+    if($(this).height() > maxHeight) maxHeight = $(this).height();
+  });
+
+  items.height(maxHeight);
+}
+
+function fixHeight(tile) {
+  var maxHeight = 0;
+  tile.find('.location-image').height(tile.find('.location-details').innerHeight());
+}
+
+function runHash(hash) {
+  console.log(hash);
+  var offset = 0;
+  var section, sectionLink, newTop;
+  var slug = hash.replace('#','');
+  section = $('[data-article-id="'+slug+'"]');
+  console.log(hash);
+  newTop = section.offset().top;
+  scrollToSection(newTop);
+}
+
+function loadHashLocation() {
+  initialState = {};
+  if(location.hash !== "") {
+    var hash = location.hash;
+    runHash(hash);
+  }
+  else {
+    // $(".accordion-item:first .section-header-bar").trigger('click');
+  }
+}
+
+function scrollToSection(newTop) {
+  console.log(newTop);
+  if($("html.mac.safari").length > 0) {
+    setTimeout(function() {
+      $(window).scrollTop(newTop);
+    }, 100);
+  }
+  else {
+    TweenMax.to($(window), 0.6, {
+      scrollTo: newTop
+    });
+  }
+
+}
+
+function hideLoader() {
+  TweenLite.to(".main-loader", 0.4, {opacity: 0, delay: 0.2, onComplete: function() {
+    $(".main-loader").addClass('hidden');
+    $("html").css('background-color', 'rgb(142,101,64)');
+  }});
+  TweenLite.to($(".page-wrapper"), 0.4, {opacity: 1, onComplete: function() {
+    loadHashLocation();
+  }});
+
+  
+}
+
+
+function ScrollExecute() {
+  console.log("SCROLLING");
+ if($(document).height() - 800 < ($(document).scrollTop() + $(window).height())) {
+     scrollNode = $('#more');    
+     // console.log(scrollNode);
+     scrollURL = $('#more a').attr("href");
+     if(scrollNode.length > 0 && scrollNode.css('display') != 'none') {
+         $.ajax({
+             type: 'GET',
+             url: scrollURL,
+             beforeSend: function() {
+               scrollNode.find('.spinner').css('display', 'inline-block');
+             },
+             success: function(data) {
+               var page = $('#more a').attr('href').split('page=');
+               var newNum = parseInt(page[1]) + 1;
+               page[1] = 'page=' + newNum;
+               page = page.join('');
+               var filteredData = $(data).find(".grid-product");
+               var nextButton = $(data).find('#more');
+               console.log('has next: ' + nextButton.length);
+               if(filteredData.length > 0) {
+                 $(".products-grid").append(filteredData);
+                 scrollNode.find('a').attr('href', page);
+               }
+               if(nextButton.length === 0) scrollNode.hide();
+               scrollNode.find('.spinner').hide();
+             },
+             dataType: "html"
+         });
+     }
+ }
+}
+
+function checkConfEmail(e) {
+  var form = $(this);
+  var email = $(this).find('[name="contact[email]"]').val();
+  var emailConf = $(this).find('[name="contact[confirm-email]"]').val();
+  if(email !== emailConf || emailConf === '') {
+    alert('Please check your email!');
+    e.preventDefault();
+    //return false;
+  }
+}
+
+function resizeEnd() {
+  if($(".locations").length > 0) {
+    $('.locations .location-tile').each(function() {
+      fixHeight($(this));
+    });
+  }
+
+  if($(".announcement-tile").length > 1) {
+    sameHeight($(".announcement-tile"));
+  }
+
+  if($("body").hasClass('template-collection')) {
+    sameHeight($(".grid-product"));
+  }
+}
+
+function resizeFunctions() {
+  if(this.resizeTO) clearTimeout(this.resizeTO);
+  
+  // ** add code to blacken visible area on resize
+  
+  //when resize complete
+  this.resizeTO = setTimeout(function() {
+    resizeEnd();
+  }, 300);
+}
+
+
+
 jQuery(function($) {
                     
   /* Placeholder JS */
@@ -67,9 +227,59 @@ jQuery(function($) {
   
   /* Update main product image when a thumbnail is clicked. */
   /*==========================*/
-  $('.product-photo-thumb a').on('click', function(e) { 
-    e.preventDefault();
-    switchImage($(this).attr('href'), null, $('.product-photo-container img')[0]);
-  } );
-  
+  // $('.product-photo-thumb a').on('click', function(e) { 
+  //   e.preventDefault();
+  //   switchImage($(this).attr('href'), null, $('.product-photo-container img')[0]);
+  // } );
+
+  // Enable home page slider
+  owl = $('.home-carousel').owlCarousel(owlArgs);
+  $('.partner-carousel').owlCarousel(partnerOwlArgs);
+
+  resizeFunctions();
+  $(window).resize(resizeFunctions);
+
+  if($('#locations').length > 0) {
+    $(".location-tile").each(function() {
+      args = {
+        canvasID: $(this).find('.map-canvas').attr('id'),
+        addrList: $(this).find('h1, h2')
+      }
+      var maps = locationMap(args);
+      maps.enable();
+    });
+  }
+
+  hideLoader();
+
+  $(".has-dropdown:not(.active)").hover(function() {
+        var subNav = $(this).find('.sub-nav');
+    if(subNav.length > 0 && subNav.closest('.has-dropdown:not(.active)').length > 0) {
+      subNav.show();
+      TweenLite.fromTo(subNav, 0.2, {top: 250}, {top: 272, opacity:1, ease:Sine.easeOut});
+    }
+  }, function() {
+    var subNav = $(this).find('.sub-nav');
+    if(subNav.length > 0 && subNav.closest('.has-dropdown:not(.active)').length > 0) {
+      TweenLite.to(subNav, 0.1, {top: 250, opacity: 0, ease:Sine.easeIn, onComplete: function() {
+        subNav.hide();
+      }});
+    }
+  });
+
+  if($('.template-collection').length > 0) {
+    console.log("we got collections y'all!!");
+    $(window).scroll(function(){
+       $.doTimeout( 'scroll', 200, ScrollExecute);
+    });
+  }
+
+  if($("#contactFormWrapper").length > 0) {
+    $("#contactFormWrapper").closest('form').submit(checkConfEmail);
+  }
+
+  if($('.template-product').length > 0) {
+    $('.sub-nav .active').closest('.has-dropdown').addClass('active');
+  }
+
 });

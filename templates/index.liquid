@@ -1,39 +1,102 @@
 {% comment %}
-  Re-use the 'rte' class wherever you output content that was added by a merchant using the Rich Text Editor ( 'rte' stands for rich text editor ).
-  Style all HTML elements in that content the same way across the board.
-  Use the 'rte' class in your CSS to help maintain that consistency.
-  Example: the h2 element should have the same size and color in:
-  - product descriptions
-  - collection descriptions
-  - page content
-  - blog posts
+	Re-use the 'rte' class wherever you output content that was added by a merchant using the Rich Text Editor ( 'rte' stands for rich text editor ).
+	Style all HTML elements in that content the same way across the board.
+	Use the 'rte' class in your CSS to help maintain that consistency.
+	Example: the h2 element should have the same size and color in:
+	- product descriptions
+	- collection descriptions
+	- page content
+	- blog posts
 {% endcomment %}
 
 {% comment %}
-  Very important reading:
-  http://docs.shopify.com/themes/liquid-basics/what-is-true-and-false-in-liquid
-  Learn how to read theme settings in your theme.
+	Very important reading:
+	http://docs.shopify.com/themes/liquid-basics/what-is-true-and-false-in-liquid
+	Learn how to read theme settings in your theme.
 {% endcomment %}
 
-{% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
-{% assign page = pages[settings.homepage_page] %}
-<div class="rte grid-margins">
-  {{ page.content }}
-</div>
+{% comment %}{% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
+	{% assign page = pages[settings.homepage_page] %}
+	<div class="rte grid-margins">
+		{{ page.content }}
+	</div>
 {% endunless %}
 
 {% unless settings.homepage_collection == blank or collections[settings.homepage_collection].empty? %}
-{% assign collection = collections[settings.homepage_collection] %}
-<ul class="grid clearfix">
-{% for product in collection.products %}
-  {% include 'product-grid-item' with 'three-per-row' %}
-{% else %}
-<li>
-  <p>
-    You have no products in your {{ collections[settings.homepage_collection].title }} collection. 
-    <a href="http://www.shopify.com/admin/collections">Add some.</a>
-  <p>
-</li>
-{% endfor %}
-</ul>
-{% endunless %}
+	{% assign collection = collections[settings.homepage_collection] %}
+
+{% endunless %}{% endcomment %}
+{% assign page = pages[settings.homepage_page] %}
+<div class="page-section main-section home-page">
+	
+	<div class="section-wrapper homepage-slider">
+		<div class="owl-carousel home-carousel">
+			{% for article in blogs.home-slider.articles %}
+
+				<div class="slide">
+					{{ article.content }}
+				</div><!-- end .slide -->
+
+			{% endfor %}
+		</div><!-- end .home-carousel -->
+	</div><!-- end .homepage-slider -->
+
+	<div class="section-wrapper product-collections">
+		<div class="grid-section grid-group">
+
+			<div class="grid-col span-1-of-2 collection-tile">
+				<div class="tile-image center-bg" style="background-image: url({{collections.meat-cheese.image | img_url: 'grande'}});">
+					<a class="tile-label button" href="{{collections.meat-cheese.url}}">{{collections.meat-cheese.title}}</a>
+					<a class="filled-link" href="{{collections.meat-cheese.url}}"></a>
+				</div><!-- end .tile-image -->
+			</div><!-- end .collection-tile -->
+
+			<div class="grid-col span-1-of-2 collection-tile">
+				<div class="tile-image center-bg" style="background-image: url({{collections.pies-tarts.image | img_url: 'grande'}});">
+					<a class="tile-label button" href="{{collections.pies-tarts.url}}">{{collections.pies-tarts.title}}</a>
+					<a class="filled-link" href="{{collections.pies-tarts.url}}"></a>
+				</div><!-- end .tile-image -->
+			</div><!-- end .collection-tile -->
+
+			<div class="grid-col span-1-of-3 collection-tile">
+				<div class="tile-image center-bg" style="background-image: url({{collections.gift-shop.image | img_url: 'grande'}});">
+					<a class="tile-label button" href="{{collections.gift-shop.url}}">{{collections.gift-shop.title}}</a>
+					<a class="filled-link" href="{{collections.gift-shop.url}}"></a>
+				</div><!-- end .tile-image -->
+			</div><!-- end .collection-tile -->
+
+			<div class="grid-col span-1-of-3 collection-tile">
+				<div class="tile-image center-bg" style="background-image: url({{collections.jars.image | img_url: 'grande'}});">
+					<a class="tile-label button" href="{{collections.jars.url}}">{{collections.jars.title}}</a>
+					<a class="filled-link" href="{{collections.jars.url}}"></a>
+				</div><!-- end .tile-image -->
+			</div><!-- end .collection-tile -->
+
+			<div class="grid-col span-1-of-3 collection-tile">
+				<div class="tile-image center-bg" style="background-image: url({{collections.treats.image | img_url: 'grande'}});">
+					<a class="tile-label button" href="{{collections.treats.url}}">{{collections.treats.title}}</a>
+					<a class="filled-link" href="{{collections.treats.url}}"></a>
+				</div><!-- end .tile-image -->
+			</div><!-- end .collection-tile -->
+			
+		</div><!-- end .grid-group -->
+	</div><!-- end .product-collections -->
+
+	<div class="section-wrapper partners-slider">
+		<div class="section-title">our retail partners</div>
+		<div class="owl-carousel partner-carousel">
+			{% for article in blogs.retail-partners.articles %}
+
+				<div class="slide">
+					{{ article.content }}
+				</div><!-- end .slide -->
+
+			{% endfor %}
+		</div><!-- end .home-carousel -->
+	</div><!-- end .homepage-slider -->
+
+	{% include 'locations' %}
+
+	{% include 'announcements' %}
+
+</div><!-- end .main-section -->

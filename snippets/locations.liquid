@@ -1,0 +1,38 @@
+<div class="section-wrapper locations">
+	<div class="section-title">where to find us</div>
+	{% assign i = 0 %}
+	{% for article in blogs.locations.articles %}
+		{% if article.title contains "Seasonal" and page.title != 'Locations' %}
+
+		{% else %}
+
+			<div class="location-tile" data-article-id="{{article.id}}">
+				<div class="left">
+					{% if article.excerpt contains "<img" %}
+				    {% assign src = article.excerpt | split: 'src="' %}
+				    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn'; | replace: 'http:http://';, 'http://'; | remove: 'https:' %}
+				    <div class="location-image center-bg" style="background-image: url({{src}});"></div>
+					{% endif %}
+					{% if page_title == 'Locations' %}
+						<div id="map-canvas-{{ i }}" class="map-canvas"></div>
+						{% capture i %}{{ i | plus:1 }}{% endcapture %}
+					{% endif %}
+				</div><!-- end .left -->
+
+				<div class="location-details">
+					<div class="name">
+						{{article.title}}
+						<a class="button show-map right" href="{{pages.locations.url | append: '#' | append: article.id}}">show map</a>
+						<div class="clear"></div>
+					</div><!-- end .name -->
+					<div class="details">{{article.content}}</div>
+				</div><!-- end .location-details -->
+				<div class="clear"></div>
+			</div><!-- end .location-tile -->
+
+
+		{% endif %}
+
+	{% endfor %}
+
+</div><!-- end .locations -->

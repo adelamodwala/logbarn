@@ -1,0 +1,21 @@
+<div class="section-wrapper home-announcements">
+	<div class="section-title">news and announcements</div>
+	<div class="grid-section grid-group">
+		{% for article in blogs.announcements.articles %}
+			<div class="announcement-tile grid-col span-1-of-3">
+				<div class="meta-info">
+					<div class="date">{{ article.created_at | date: "%B %-d, %Y" }}</div>
+					<div class="article-title">{{ article.title }}</div>
+				</div><!-- end .meta-info -->
+				{% if article.excerpt contains "<img" %}
+			    {% assign src = article.excerpt | split: 'src="' %}
+			    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn'; | replace: 'http:http://';, 'http://'; | remove: 'https:' %}
+			    <div class="announcement-image center-bg" style="background-image: url({{src}});"></div><!-- end .announcement-image -->
+				{% endif %}
+				<div class="content">{{ article.content | strip_html | truncatewords: 20 }}</div>
+				<a class="button" href="{{ article.url }}">read more</a>
+			</div><!-- end .announcement-tile -->
+		{% endfor %}
+	</div><!-- end .grid-section -->
+
+</div><!-- end .locations -->

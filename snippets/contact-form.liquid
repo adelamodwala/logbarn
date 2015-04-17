@@ -1,0 +1,46 @@
+{% form 'contact' %}
+
+{% if form.posted_successfully? %}
+    <div class="successForm feedback">
+      <p>Thanks for contacting us! We'll get back to you as soon as possible.</p>
+    </div>
+{% endif %}
+
+{% if form.errors %}
+<div class="errorForm feedback">
+  <!-- {{ form.errors.size }} or {{ form.errors | size }} -->
+  <p>Oops, sorry. We were unable to submit your inquiry because it contained {{ form.errors | size | pluralize: 'an error', 'a few errors' }}. Please correct the following and submit again:</p>
+  {% for field in form.errors %}
+    <p>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div id="contactFormWrapper">
+  <div class="col col-1-3">
+    <input type="text" id="contactFormName" name="contact[name]" placeholder="name" />
+    <input type="email" id="contactFormEmail" name="contact[email]" placeholder="email" />
+    <input type="email" id="confirm-email" name="contact[confirm-email]" placeholder="confirm email" />
+    <input type="telephone" id="contactFormTelephone" name="contact[phone]" placeholder="phone number" />
+  </div><!-- end .col-1-3 -->
+
+
+  <div class="col col-2-3">
+    <div class="caveat">{{ pages.contact-us.content }}</div>
+    <textarea rows="5" cols="75" id="contactFormMessage" name="contact[body]" placeholder="Your Message"></textarea>
+  </div><!-- end .col-2-3 -->
+  <div class="submit-wrapper right">
+    <input type="submit" class="button" id="contactFormSubmit" value="SEND" />
+  </div>
+  <div class="clear"></div>
+</div><!-- end #contactWrapper -->
+
+{% endform %}
+
+<style>
+.contact-form {margin:1em 0}
+.feedback {padding:0.5em 0.7em;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px}
+.feedback p {padding:0.5em 0 !important;margin:0 !important}
+.successForm {background:#BDE0A8;color:green}
+.errorForm {background:#EEBDBD;color:red}
+</style>

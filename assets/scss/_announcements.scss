@@ -1,0 +1,42 @@
+//Announcements Styles
+
+.home-announcements {
+
+	.announcement-tile {
+		border: 1px solid rgba(black, 0.2);
+		padding: 15px 0;
+		position: relative;
+		@include border-radius(8px);
+		@include transition(height .2s);
+
+		.meta-info {padding: 20px 25px;}
+
+		.announcement-image {
+			height: 170px;
+			width: 100%;
+			margin: 20px 0 25px;
+		}
+
+		.article-title {
+			color: #3e2a20;
+			font-size: 14px;
+		}
+
+		.content {
+			padding: 0 40px 60px;
+			color: rgba(black, 0.3);
+			font-size: 14px;
+			line-height: 1.5;
+		}
+
+		.button {
+			text-align: center;
+			width: 100px;
+			position: absolute;
+			left: 50%;
+			bottom: 25px;
+			@include transform(translateX(-50%));
+		}
+	}
+
+}

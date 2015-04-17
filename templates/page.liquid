@@ -10,7 +10,14 @@ Example: the h2 element should have the same size and color in:
 - blog post
 {% endcomment %}
 
-<h1>{{ page.title }}</h1>
-<div class="rte">
-  {{ page.content }}
-</div>
+{% if page.title == 'Locations' %}
+	<div class="page-section main-section">
+		{% include 'locations' %}
+	</div>
+
+{% else %}
+	<h1>{{ page.title }}</h1>
+	<div class="rte">
+	  {{ page.content }}
+	</div>
+{% endif %}

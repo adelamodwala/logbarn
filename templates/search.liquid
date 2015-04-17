@@ -12,12 +12,12 @@ applied to the elements on this page; the 'searchresults' id is used in the CSS
 selectors inside search.css.
 {% endcomment %}
 
-<div id="searchresults">
+<div id="search-results">
   
   <div class="centered">
     <form action="/search" method="get" class="search-form" role="search">
       <input name="q" type="search" id="search-field" placeholder="Search store..." value="{{ search.terms | escape }}" />
-      <input type="submit" id="search-submit" value="Search" />
+      <input type="submit" id="search-submit" class="sprite magnify" value="" />
     </form>
   </div>
   

@@ -20,31 +20,37 @@ Here, for the sake of teaching, we will use 2 presentation options:
   {% assign on_sale = true %}
 {% endif %}
 
-<li class="{{ product-grid-item }}{% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% if product-grid-item == 'four-per-row' %}{% cycle 'last': '', '', '', ' last-in-row' %}{% elsif product-grid-item == 'three-per-row' %}{% cycle 'last': '', '', ' last-in-row' %}{% endif %} centered">
+<li class="{{ products_per_row }}{% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% if product-grid-item == 'four-per-row' %}{% cycle 'last': '', '', '', ' last-in-row' %}{% elsif product-grid-item == 'three-per-row' %}{% cycle 'last': '', '', ' last-in-row' %}{% endif %} grid-product" id="product-{{ forloop.index | plus:paginate.current_offset }}">
 
   <div class="prod-image-wrap">  
-    <a href="{{ product.url | within: collection }}">
-      <img src="{{ product | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
-    </a>
+    <div class="tile-image center-bg" style="background-image: url('{{ product | img_url: 'grande' }}');" alt="{{ product.featured_image.alt | escape }}">
+      {% capture prodUrl %}/collections/{{ product.collections.first.title | handle }}{{ product.url }}{% endcapture %}
+      <a href="{{ prodUrl }}" class="filled-link"></a>
+    </div><!-- end .tile-image -->
   </div><!-- .prod-image-wrap -->
   
   <div class="prod-caption">
-      <a href="{{ product.url | within: collection }}">
+      <a href="{{ prodUrl }}" class="left prod-title">
         {{ product.title }}
       </a>
-      <span class="prod-price">
+      <span class="prod-price right">
         {% if product.price_varies %}From{% endif %}
         {{ product.price | money }}
         {% if on_sale %}
         <s class="compare-at-price">{{ product.compare_at_price | money }}</s>
         {% endif %}
       </span>
+      <div class="clear"></div>
       {% comment %}
         All themes by Shopify should support the Product Reviews app out of the box.
         https://apps.shopify.com/product-reviews
       {% endcomment %}
       <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
   </div><!-- .prod-caption -->
+
+  <div class="prod-blurb">
+    {{ product.content | strip_html | truncatewords: 12 }}
+  </div><!-- end .prod-blurb -->
   
 </li>
 

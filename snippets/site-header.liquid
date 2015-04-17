@@ -1,0 +1,61 @@
+<header class="site-header">
+  
+{% comment %}  <div class="half column right-aligned">
+        
+    {% if shop.customer_accounts_enabled %}
+    <div class="customer-links">
+      {% if customer %}
+        Logged in as <a href="/account">{{ customer.first_name }}</a> · {{ 'Log out' | customer_logout_link }}
+      {% else %}
+        {{ 'Log in' | customer_login_link }}
+        {% if shop.customer_accounts_optional %}
+        or {{ 'Create an account' | customer_register_link }}
+        {% endif %}
+      {% endif %}
+    </div><!-- end .customer-links -->
+    {% endif %}
+    
+  </div><!-- end .half.column.right-aligned -->{% endcomment %}
+
+  <div class="masthead section-wrapper" role="banner">
+    {% if settings.use_logo %}
+      <div class="left logo-container">
+        <a id="logo" href="/">
+          {{ 'logo.png' | asset_url | img_tag: shop.name }}
+        </a>
+      </div><!-- end .logo-container -->
+
+      <div class="search-container">
+        <form action="/search" method="get" class="search-form right" role="search">
+          <input name="q" type="search" id="search-field" placeholder="Search store..." value="{{ search.terms | escape }}" />
+          <input type="submit" id="search-submit" class="sprite magnify" value="" />
+        </form>
+      </div><!-- end .search-container -->
+      
+      <div class="clear"></div>
+    
+    {% else %}
+      <a id="site-title" href="/">
+        {{ shop.name }}
+      </a>
+    {% endif %}
+    {% if template == 'index' %}
+      {% comment %}
+        Many SEO audit tools look for a h1 tag on the home page. Let's give 'em one.
+        Other pages should use the resource name as h1 tag. For example, on the product
+        page, the product title will use a h1 tag.
+      {% endcomment %}
+      <h1 class="hidden">{{ shop.name }}</h1>
+    {% endif %}
+  </div><!-- end .masthead -->
+  
+  <div class="site-nav">
+  
+    {% comment %}
+      Main Navigation 
+    {% endcomment %}
+    {% include 'site-nav' %}
+
+  </div>
+  
+</header>

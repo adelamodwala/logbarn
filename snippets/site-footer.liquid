@@ -1,0 +1,61 @@
+<div class="newsletter-wrapper">{% include 'newsletter' %}</div>
+<div class="footer-wrapper">
+  
+  <div class="section-wrapper">
+    {% include 'footer-social-links' %}
+  </div><!-- end .section-wrapper -->
+
+  <div class="section-wrapper">
+    <div class="left col-1-2">
+      
+      <div class="col footer-nav">
+        {% if linklists.footer.links.size > 0 %}
+          {% for link in linklists.footer.links %}
+            <a href="{{ link.url }}" title="{{ link.title }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+          {% endfor %}
+
+        {% endif %}
+      </div><!-- end .col-1-3 -->
+
+      <div class="col footer-nav">
+        {% assign all = collections.all %}
+        <a href="{{ all.url }}" title="{{ all.title }}">{{ all.title }}</a>
+        {% for product in all.products | limit: 2 %}
+          <a href="{{ product.url }}" title="{{ product.title }}" class="sub-link">{{ product.title }}</a>
+        {% endfor %}
+      </div><!-- end .col-1-3 -->
+
+      <div class="col footer-nav">
+
+      </div><!-- end .col-1-3 -->
+
+    </div><!-- end .left -->
+
+    <div class="right col-1-2 legal">
+      <p role="contentinfo" class="small-print">Copyright &copy; {{ "now" | date: "%Y" }} {{ shop.name }}. <a href="{{pages.customer-service.url}}">Customer Service</a> <a href="{{pages.privacy-policy.url}}">Privacy Policy</a> </p>
+    </div><!-- end .right -->
+    <div class="clear"></div>
+
+  </div><!-- end .section-wrapper -->
+
+  <div class="section-wrapper">
+    <div class="section-title">our guarantee</div>
+    <div class="caveat">
+      {% for article in blogs.misc-content.articles %}
+
+        {% if article.title == 'Our Guarantee' %}{{ article.content }}{% endif %}
+        {% comment %}{{article.content}}{% endcomment %}
+      {% endfor %}
+    </div><!-- end .caveat -->
+  </div><!-- end .section-wrapper -->
+
+</div><!-- end .footer-wrapper -->
+
+
+{% unless shop.enabled_payment_types == empty %}
+  <div class="payment-types">
+    {% for type in shop.enabled_payment_types %}
+      <img width="40" src="{{ type | payment_type_img_url }}" />
+    {% endfor %}
+  </div>
+{% endunless %}

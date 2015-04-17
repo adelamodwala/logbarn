@@ -1,0 +1,65 @@
+//Home page styles
+
+.home-page {
+	.home-carousel {
+		border: 4px solid rgb(223,196,99);
+		@include border-radius(7px);
+
+		.slide {
+			position: relative;
+			box-sizing: border-box;
+
+			img {
+				width: 100%;
+				height: auto;
+				display: block;
+				@include border-radius(3px);	
+			}
+		}
+	}
+
+	.partners-slider {
+		text-align: center;
+
+		.partner-carousel {
+			background: rgba(white, 0.5);
+			border: 1px solid rgba(black, 0.1);
+			padding: 40px;
+			@include border-radius(8px);
+		}
+
+		img {height: 52px;}
+	}
+
+	.product-collections {
+		padding-top: 0;
+
+		.collection-tile {
+			position: relative;
+			border: 2px solid rgb(226,201,112);
+			@include border-radius(7px);
+			
+			.tile-image {
+				padding-top: 50%;
+				position: relative;
+				@include border-radius(5px);
+			}
+			&.span-1-of-3 .tile-image {padding-top: 75%;}
+
+			.tile-label {
+				position: absolute;
+				left: 20px;
+				bottom: -14px;
+				font-size: 23px;
+				padding: 8px 14px;
+				@include border-radius(8px);
+			}
+		}
+	}
+}
+
+html.mac, html.safari, html.android {
+	.home-page .product-collections .collection-tile .tile-label {
+		padding: 10px 14px 4px;
+	}
+}
