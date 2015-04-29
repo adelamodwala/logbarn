@@ -26,6 +26,7 @@
       </div><!-- end .logo-container -->
 
       <div class="search-container">
+        <div class="mobile-cart">{% include 'cart' %}</div>
         <form action="/search" method="get" class="search-form right" role="search">
           <input name="q" type="search" id="search-field" placeholder="Search store..." value="{{ search.terms | escape }}" />
           <input type="submit" id="search-submit" class="sprite magnify" value="" />

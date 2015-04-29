@@ -20,6 +20,11 @@
 		.article-title {
 			color: #3e2a20;
 			font-size: 14px;
+			max-width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			line-height: 1.2;
 		}
 
 		.content {
@@ -38,5 +43,10 @@
 			@include transform(translateX(-50%));
 		}
 	}
+}
 
+@media #{media-width-res(767)} {
+	.home-announcements .announcement-tile {
+		width: 100%;
+	}
 }

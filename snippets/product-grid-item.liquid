@@ -23,7 +23,7 @@ Here, for the sake of teaching, we will use 2 presentation options:
 <li class="{{ products_per_row }}{% unless product.available %} sold-out{% endunless %}{% if on_sale %} on-sale{% endif %}{% if product-grid-item == 'four-per-row' %}{% cycle 'last': '', '', '', ' last-in-row' %}{% elsif product-grid-item == 'three-per-row' %}{% cycle 'last': '', '', ' last-in-row' %}{% endif %} grid-product" id="product-{{ forloop.index | plus:paginate.current_offset }}">
 
   <div class="prod-image-wrap">  
-    <div class="tile-image center-bg" style="background-image: url('{{ product | img_url: 'grande' }}');" alt="{{ product.featured_image.alt | escape }}">
+    <div class="tile-image center-bg" style="background-image: url('{{ product | img_url: 'large' }}');" alt="{{ product.featured_image.alt | escape }}">
       {% capture prodUrl %}/collections/{{ product.collections.first.title | handle }}{{ product.url }}{% endcapture %}
       <a href="{{ prodUrl }}" class="filled-link"></a>
     </div><!-- end .tile-image -->

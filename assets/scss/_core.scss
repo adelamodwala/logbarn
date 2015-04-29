@@ -43,12 +43,16 @@ $tablet-mobile: "only screen and (max-device-width: 767px), (max-width: 767px)";
 	border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 6px solid rgb(223, 196, 99);
+
+  @media #{media-width-res(960)} {
+  	bottom: -22px;
+  }
 }
 
 // Core Styles
 
 .sprite {
-	background-image: url('sprites.png');
+	background-image: url('sprites_1.png');
 	background-repeat: no-repeat;
 	position: relative;
 
@@ -76,12 +80,12 @@ $tablet-mobile: "only screen and (max-device-width: 767px), (max-width: 767px)";
 		background-position: -120px 0;
 	}
 
-	&.menu-switch {
-		height: 22px;
-		width: 30px;
-		background-position: -50px 0;
-	}
+}
 
+.menu-switch {
+	background: url('menu-toggle.png') center / contain no-repeat;
+	height: 22px;
+	width: 30px;
 }
 
 .large-sprite {
@@ -129,6 +133,12 @@ $tablet-mobile: "only screen and (max-device-width: 767px), (max-width: 767px)";
 	// background: url('logo.png') center / contain no-repeat;
 	position: relative;
 	padding-left: 20px;
+
+	img {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
 }
 
 //Grids
@@ -144,7 +154,7 @@ $tablet-mobile: "only screen and (max-device-width: 767px), (max-width: 767px)";
 .grid-col {
 	display: block;
 	float:left;
-	margin: 0 5px 20px;
+	margin: 0 5px 30px;
 
 
 }
@@ -166,11 +176,11 @@ $tablet-mobile: "only screen and (max-device-width: 767px), (max-width: 767px)";
 .span-1-of-1 {width: calc(100% - 10px);}
 .span-1-of-2 {
 	// width: 48%;
-	width: calc(50% - 15px);
+	width: calc(50% - 10px);
 }
 
 .span-1-of-3 {
-	width: calc(33.33% - 13px);
+	width: calc(33.33% - 10px);
 }
 .span-2-of-3 {
 	width: calc(66.67% - 20px);

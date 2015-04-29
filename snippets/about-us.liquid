@@ -1,0 +1,47 @@
+<div class="section-wrapper about-us-wrapper" data-article-id="our-suppliers">
+	{{ page.content }}
+</div><!-- end .about-us-wrapper -->
+
+<div class="section-wrapper hours-contact">
+	<div class="left office-hours">
+		<div class="section-title">
+			office
+			<div class="sub-label">hours of operation</div>
+		</div><!-- end .section-title -->
+		
+		{% for article in blogs.misc-content.articles %}
+			{% if article.title == 'Office Hours' %}
+				{{ article.content }}
+			{% endif %}
+		{% endfor %}
+
+	</div><!-- end .office-hours -->
+
+	<div class="contact-wrapper">
+		<div class="section-title">contact us</div>
+		<div class="contact-cta">
+      {% assign ph_ary = shop.phone | split: '' %}
+      {% assign phone = ph_ary[0] | append: '-' | append: ph_ary[1] | append: ph_ary[2] | append: ph_ary[3] | append: '-' | append: ph_ary[4] | append: ph_ary[5] | append: ph_ary[6] | append: '-' | append: ph_ary[7] | append: ph_ary[8] | append: ph_ary[9] | append: ph_ary[10] %}
+			<span>call us at</span>
+			<a class="button" href="tel:{{ shop.phone }}">{{ phone }}</a>
+			<span>click here to</span>
+			<a class="button" href="mailto:{{ shop.email }}">email us</a>
+			<span>or use the form below</span>
+		</div><!-- end .contact-cta -->
+		{% include 'contact-form' %}
+	</div><!-- end .contact-wrapper -->
+	<div class="clear"></div>
+</div><!-- end .hours-contact -->
+
+<div class="section-wrapper about-us-wrapper" data-article-id="retail-partnership">
+	<h1>retail partnership</h1>
+	{% for article in blogs.misc-content.articles %}
+		{% if article.title == 'Retail Partnership' %}
+			{{ article.content }}
+		{% endif %}
+	{% endfor %}
+</div><!-- end .about-us-wrapper -->
+
+<div class="section-wrapper locations-cta">
+	<a href="{{ pages.locations.url }}" class="button">see our locations</a>
+</div><!-- end .locations-cta -->

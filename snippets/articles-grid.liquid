@@ -1,21 +1,17 @@
-{% assign products_per_page = settings.products_per_row | times: settings.number_of_rows %}
-{% assign numbers = 'zero, one, two, three, four, five, six' | split: ',' %}
-{% assign products_per_row = settings.products_per_row | times: 1 %}
-{% assign products_per_row = numbers[products_per_row] | strip | append: '-per-row' %}
-
-{% paginate collection.products by 6 %}
+{% paginate blogs.recipes.articles by 6 %}
 <!-- the top of your collections.liquid -->
 
 <div class="section-wrapper grid-wrapper">
 
 	<!-- START PRODUCTS -->
 	<ul class="grid clearfix products-grid">
-		{% for product in collection.products %}
+		{% for article in blogs.recipes.articles %}
 			<!-- START PRODUCT {{ forloop.index | plus:paginate.current_offset }} -->
 			{% comment %}	    <div class="product" id="product-{{ forloop.index | plus:paginate.current_offset }}">
 						{% include 'product' with product %}
 				</div> {% endcomment %}
-				{% include 'product-grid-item' %}
+				{% include 'article-grid-item' %}
+				{% comment %}{{ article.title }}{% endcomment %}
 			<!-- END PRODUCT {{ forloop.index | plus:paginate.current_offset }} -->
 		{% endfor %}
 	</ul>
@@ -33,9 +29,4 @@
 <!-- the bottom of your collections.liquid -->
 {% endpaginate %}
 
-</div><!-- end .section-wrapper -->
-
-<div class="section-wrapper collection-contact">
-	<div class="section-title">contact us</div>
-	{% include 'contact-form' %}
 </div><!-- end .section-wrapper -->

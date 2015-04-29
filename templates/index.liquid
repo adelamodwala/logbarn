@@ -1,31 +1,3 @@
-{% comment %}
-	Re-use the 'rte' class wherever you output content that was added by a merchant using the Rich Text Editor ( 'rte' stands for rich text editor ).
-	Style all HTML elements in that content the same way across the board.
-	Use the 'rte' class in your CSS to help maintain that consistency.
-	Example: the h2 element should have the same size and color in:
-	- product descriptions
-	- collection descriptions
-	- page content
-	- blog posts
-{% endcomment %}
-
-{% comment %}
-	Very important reading:
-	http://docs.shopify.com/themes/liquid-basics/what-is-true-and-false-in-liquid
-	Learn how to read theme settings in your theme.
-{% endcomment %}
-
-{% comment %}{% unless settings.homepage_page == blank or pages[settings.homepage_page].empty? %}
-	{% assign page = pages[settings.homepage_page] %}
-	<div class="rte grid-margins">
-		{{ page.content }}
-	</div>
-{% endunless %}
-
-{% unless settings.homepage_collection == blank or collections[settings.homepage_collection].empty? %}
-	{% assign collection = collections[settings.homepage_collection] %}
-
-{% endunless %}{% endcomment %}
 {% assign page = pages[settings.homepage_page] %}
 <div class="page-section main-section home-page">
 	
@@ -34,7 +6,39 @@
 			{% for article in blogs.home-slider.articles %}
 
 				<div class="slide">
-					{{ article.content }}
+					{% comment %}Find article image{% endcomment %}
+					{% assign article_has_image = false %}
+					{% assign img_tag = '<' | append: 'img' %}
+					{% if article.excerpt_or_content contains img_tag %}
+						{% assign src = article.excerpt_or_content | split: 'src="' %}
+						{% assign main = src[1] | split: '"' | first %}
+						{% if main %}
+							{% assign article_has_image = true %}
+							{% assign main_image_src = main | replace: '_small', '' | replace: '_compact', '' | replace: '_medium', '' | replace: '_large', '' | replace: '_grande', '' %}
+						{% endif %}
+					{% endif %}
+
+					{% comment %}Find article link{% endcomment %}
+					{% assign article_has_link = false %}
+					{% assign a_tag = 'href' %}
+					{% if article.content contains a_tag %}
+						{% assign href = article.content | split: 'href="' %}
+						{% assign href = href[1] | split: '"' | first %}
+						{% if href %}
+							{% assign article_has_link = true %}
+						{% endif %}
+					{% endif %}
+
+					<div class="tile-image center-bg" style="background-image: url({{ main_image_src }});">
+						{% if article_has_link %}
+							<a href="{{ href }}" class="filled-link"></a>
+						{% endif %}
+					</div><!-- end .tile-image -->
+					<div class="slide-caption">
+						<div class="caption-inside">
+							{{ article.content }}
+						</div><!-- end .caption-inside -->
+					</div><!-- end .slide-caption -->
 				</div><!-- end .slide -->
 
 			{% endfor %}

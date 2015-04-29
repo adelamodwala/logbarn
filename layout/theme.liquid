@@ -18,7 +18,7 @@
 
   <link rel="canonical" href="{{ canonical_url }}" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   
   {% include 'open-graph-tags' %}
   {% include 'twitter-card' %}
@@ -38,7 +38,6 @@
   
   {{ '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic' | stylesheet_tag }}
 
-  {{ <link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'> | stylesheet_tag }}
 
   <!--[if lt IE 9]>
   {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
@@ -65,8 +64,8 @@
   <script>jQuery('html').removeClass('no-js').addClass('js');</script>
 
 </head>
-
-<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+{% capture template_class %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% endcapture %}
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}{{ template_class }} {% if page_title == 'Recipes' or page_title == 'Blogs' %}template-collection {% endif %}{% if template_class == 'template-article' %}template-product {% endif %}" >
 
   <div class="page-wrapper">
 

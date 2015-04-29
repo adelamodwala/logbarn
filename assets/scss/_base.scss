@@ -57,7 +57,7 @@ em {
   // @media #{media-width-res(767)} {padding: 40px 0;}
 }
 
-#main {padding-top: 45px;}
+#main {padding: 45px 0; margin-bottom: 0;}
 
 .main-section {
 	// background: rgb(214,214,214);
@@ -80,12 +80,10 @@ em {
 }
 
 .sub-label {
-  font-family: $bodyFont;
-  font-size: 12px;
-  letter-spacing: -1px;
-  text-transform: uppercase;
-  color: rgba(black, 0.5);
-  // margin-bottom: 5px;
+  font-family: Raleway;
+  font-weight: 100;
+  font-size: 18px;
+	color: #3e2a20;
 }
 
 .section-title {
@@ -140,9 +138,9 @@ em {
 .content p:not(:last-child) {margin-bottom: 25px;}
 
 input {vertical-align: top};
-input[type="text"], input[type="email"], input[type="search"], input[type="telephone"], textarea, select {
+input[type="text"], input[type="email"], input[type="search"], input[type="telephone"], input[type="number"], textarea, select {
 	outline: none;
-	background: transparent;
+	background-color: transparent;
 	border: 1px solid rgb(62,42,32);
 	font-family: HelveticaLtIt;
 	color: #402a20;
@@ -155,32 +153,33 @@ input[type="text"], input[type="email"], input[type="search"], input[type="telep
 	&::-webkit-input-placeholder {
 	   font-family: HelveticaLtIt;
 	  -webkit-font-smoothing: antialiased;
-	  color: #402a20;
+	  color: rgba(#402a20, 0.6);
 	}
 
 	&:-moz-placeholder { /* Firefox 18- */
 	   font-family: HelveticaLtIt;
 	   -webkit-font-smoothing: antialiased;
 	   -moz-osx-font-smoothing: grayscale;
-	   color: #402a20;
+	   color: rgba(#402a20, 0.6);
 	}
 
 	&::-moz-placeholder {  /* Firefox 19+ */
 	   font-family: HelveticaLtIt;  
 	   -webkit-font-smoothing: antialiased;
 	   -moz-osx-font-smoothing: grayscale;
-	   color: #402a20;
+	   color: rgba(#402a20, 0.6);
 	}
 
 	&:-ms-input-placeholder {  
 	   font-family: HelveticaLtIt;
-	   color: #402a20;
+	   color: rgba(#402a20, 0.6);
 	}
 
 }
-select {font-family: HelveticaLtIt;}
+select {font-family: HelveticaLtIt; padding-right: 25px;}
 html.mac, html.safari, html.android {
-	input[type="text"], input[type="email"], input[type="search"], input[type="telephone"], textarea, select {padding: 8px 10px 4px;}
+	input[type="text"], input[type="email"], input[type="search"], input[type="telephone"], input[type="number"], textarea, select {padding: 8px 10px 4px;}
+	select {padding-right: 25px;}
 }
 
 input[type="submit"] {
@@ -190,7 +189,13 @@ input[type="submit"] {
 	background-color: black;
 	border: 1px solid black;
 
-	&:hover {background: lighten(rgb(226,201,112), 3); border: 1px solid #{lighten(rgb(226,201,112), 3)};}
+	&:hover {
+		background-color: lighten(rgb(226,201,112), 3); 
+		border: 1px solid #{lighten(rgb(226,201,112), 3)};
+	}
+}
+html.mac, html.safari, html.android {
+	input[type="submit"] {padding: 8px 10px 4px;}
 }
 
 .search-form {
@@ -215,7 +220,7 @@ input[type="submit"] {
 	}
 }
 
-.button {
+.button, .home-page .home-carousel .slide .slide-caption .caption-inside p a {
 	font-size: 14px;
 	padding: 8px 14px;
 	display: block;
@@ -235,7 +240,7 @@ input[type="submit"] {
 	}
 }
 html.mac, html.safari, html.android {
-	.button {padding: 8px 10px 4px;}
+	.button, .home-page .home-carousel .slide .slide-caption .caption-inside p a {padding: 8px 10px 4px;}
 }
 
 .hover-overlay {
@@ -271,4 +276,26 @@ html.mac, html.safari, html.android {
 	margin-bottom: 10px;
 	border: 2px solid rgb(223,196,99);
 	@include border-radius(7px);
+}
+
+#search-results {
+	.section-title {
+		margin-left: 0;
+		margin-bottom: 40px;
+		text-align: center;
+	}
+}
+
+.basic-page {
+	.section-title {
+		margin-left: 0;
+		&.centered {text-align: center;}
+	}
+
+	p {
+		font-size: 15px;
+		color: #3e2a20;
+		line-height: 1.2;
+		&:not(:last-child) {margin-bottom: 15px;}
+	}
 }

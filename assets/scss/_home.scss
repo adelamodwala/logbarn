@@ -8,12 +8,69 @@
 		.slide {
 			position: relative;
 			box-sizing: border-box;
+			
+			.tile-image {
+				height: 475px; 
+				margin-bottom: 0;
+				border: none;
+				@include border-radius(4px);
+			}
 
-			img {
-				width: 100%;
-				height: auto;
-				display: block;
-				@include border-radius(3px);	
+			.slide-caption {
+				position: absolute;
+				left: 60px;
+				top: 50%;
+				background-color: transparent;
+				width: 325px;
+				@include transform(translateY(-50%));
+				@include box-shadow(inset 0 0 0 10px rgba(white, 0.9));
+
+				.caption-inside {
+					background-color: rgba(white, 0.9);
+					width: calc(100% - 30px);
+					height: calc(100% - 30px);
+					margin: 15px;
+					padding: 15px;
+					line-height: 1.3;
+
+					h1, p {text-align: center;}
+					h1 {
+						font-family: Raleway; 
+						font-weight: 900;
+						font-size: 28px;
+						padding: 15px 0;
+						// margin-bottom: 15px;
+						border-bottom: 1px solid rgb(220,198,117);
+					}
+
+					p {
+						padding: 0 10px;
+						font-size: 18px;
+						padding-top: 15px;
+
+						a {display: inline-block;}
+					}
+				}
+			}
+		}
+
+		.owl-controls {margin: 0;}
+		.owl-controls .owl-buttons div {
+			position: absolute;
+			top: 50%;
+			background: url('chev.png') center / contain no-repeat;
+			height: 77px;
+			width: 42px;
+			opacity: 1;
+			
+			&.owl-next {
+				right: 10px;
+				@include transform(translateY(-50%));
+			}
+
+			&.owl-prev {
+				left: 10px;
+				@include transform(translateY(-50%) scaleX(-1));
 			}
 		}
 	}
@@ -42,6 +99,8 @@
 			.tile-image {
 				padding-top: 50%;
 				position: relative;
+				border: none;
+				margin: 0;
 				@include border-radius(5px);
 			}
 			&.span-1-of-3 .tile-image {padding-top: 75%;}
@@ -62,4 +121,54 @@ html.mac, html.safari, html.android {
 	.home-page .product-collections .collection-tile .tile-label {
 		padding: 10px 14px 4px;
 	}
+}
+
+@media #{media-width-res(767)} {
+	.home-page .product-collections .collection-tile {
+		width: calc(100% - 10px);
+
+		.tile-image {padding-top: 50% !important;}
+	}
+
+	.home-page .locations .location-details ul {
+		display: block !important;
+		width: 100% !important;
+		
+		&:not(:last-child) {margin-bottom: 30px;}
+	}
+
+	.locations .location-tile .location-details .name {
+		margin-bottom: 5px;
+		.button {
+			float: none;
+			display: inline-block;
+			position: relative;
+			top: -2px;
+		}
+	}
+}
+
+@media #{media-width-res(600)} {
+	.home-page .home-carousel {
+		.slide .slide-caption {
+			left: 50%;
+			@include transform(translateY(-50%) translateX(-50%));
+			max-width: calc(100% - 20px);
+
+			.caption-inside {
+				h1 {font-size: 20px;}
+				p {font-size: 15px;}
+			}
+		}
+
+		.owl-controls .owl-buttons div {
+			height: 38px;
+			width: 21px;
+			opacity: 1 !important;
+			&.owl-next {right: 0px;}
+			&.owl-prev {left: 0px;}
+		}
+	}
+
+
 }

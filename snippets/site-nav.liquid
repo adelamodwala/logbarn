@@ -22,7 +22,7 @@
         call us <a href="tel:{{ shop.phone }}">{{ phone }}</a>
       </div><!-- end .contact-col -->
 
-      <div class="col contact-col">
+      <div class="col contact-col last-contact-col">
         <span>visit us at</span>
         <div class="social-icons col">
           <div class="col sprite social-icon twitter"><a class="filled-link" href="https://twitter.com/LogBarn1912"></a></div>
@@ -81,10 +81,21 @@
     {% endfor %}
     {% include 'cart' %}
     <span class="justify-span"></span>
-    <li class="show-on-small{% if template == 'search' %} active{% endif %}">
+{% comment %}    <li class="show-on-small{% if template == 'search' %} active{% endif %}">
       <a href="/search">
         <i class="fa fa-search"></i>
       </a>
-    </li>
+    </li>{% endcomment %}
   </ul><!-- end .nav -->
+
+  <div class="toggle-menu">
+    <div class="menu-switch right"></div>
+    {% capture page_title %}{{ page.title }}{{ blog.title }}{{ collection.title }}{% endcapture %}
+    {% if template == 'index' %}
+      {% assign page_title = 'home' %}
+    {% endif %}
+    <div class="current-page-title right">{{ page_title }}</div>
+    <div class="clear"></div>
+  </div><!-- end .toggle-menu -->
+
 </nav>

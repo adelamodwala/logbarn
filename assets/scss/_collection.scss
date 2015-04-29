@@ -1,6 +1,52 @@
 // Collection styles
 
+.grid-product {
+	min-height: 320px;
+
+	.prod-caption {
+		padding: 0 7px;
+
+		.prod-title {
+			font-family: HelveticaMdCn;
+			font-size: 23px;
+			color: #3e2a20;
+			max-width: calc(100% - 75px);
+		}
+
+		.prod-price {
+			font-family: HelveticaUlLtCn;
+			font-size: 18px;
+			color: #3e2a20;
+			position: relative;
+			top: 3px;
+		}
+	}
+
+	.prod-blurb {
+		padding: 0 7px 0;
+		font-family: HelveticaLt;
+		font-size: 14px;
+		line-height: 1.2;
+		color: #3e2a20;
+	}
+
+	@media #{media-width-res(800)} {
+		&.three-per-row {
+			width: 50%;
+		}
+	}
+
+	@media #{media-width-res(480)} {
+		min-height: 0;
+		height: auto !important;
+	}
+}
+
 .template-collection {
+
+	&.template-blog {
+		.grid-wrapper {border-bottom: none;}
+	}
 	
 	.products-grid {margin-bottom: 0;}
 
@@ -10,37 +56,6 @@
 		.button {
 			position: relative;
 			top: -2px;
-		}
-	}
-	
-	.grid-product {
-		min-height: 320px;
-
-		.prod-caption {
-			padding: 0 7px;
-
-			.prod-title {
-				font-family: HelveticaMdCn;
-				font-size: 23px;
-				color: #3e2a20;
-				max-width: calc(100% - 75px);
-			}
-
-			.prod-price {
-				font-family: HelveticaUlLtCn;
-				font-size: 18px;
-				color: #3e2a20;
-				position: relative;
-				top: 3px;
-			}
-		}
-
-		.prod-blurb {
-			padding: 0 7px 0;
-			font-family: HelveticaLt;
-			font-size: 14px;
-			line-height: 1.2;
-			color: #3e2a20;
 		}
 	}
 
@@ -64,6 +79,13 @@
 		}
 	}
 
+	.collection-contact {
+		.section-title {
+			margin: 0;
+			text-align: center;
+		}
+	}
+
 	#contactFormWrapper {
 		textarea {height: 77px;}
 		.col-1-3 {
@@ -74,6 +96,7 @@
 		.col-2-3 {
 			padding-left: 25px;
 		}
+		.mobile {display: none;}
 	}
 
 }
@@ -90,5 +113,20 @@
 		color: rgba(#3e2a20, 0.5);
 		line-height: 1.2;
 		margin-bottom: 15px;
+	}
+}
+
+@media #{media-width-res(767)} {
+	.collection-contact {
+		#contactFormWrapper {
+			.col-1-3, .col-2-3 {
+				display: block;
+				width: 100%;
+				border: none;
+				padding: 0;
+			}
+			.desktop {display: none;}
+			.mobile {display: block;}
+		}
 	}
 }

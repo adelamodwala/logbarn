@@ -12,11 +12,12 @@
 		<form action="/cart/add" method="post" enctype="multipart/form-data">
 
 			{% if product.images.size > 0 %}
-				<div class="product-photos {% if product.images.size > 0 %}col-1-4{% endif %}">
+				{% comment %}<div class="product-photos {% if product.images.size > 0 %}col-1-4{% endif %}">{% endcomment %}
+				<div class="product-photos left">
 			
 					{% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
 					<div class="product-photo-container">
-						<div class="tile-image center-bg" style="background-image: url({{ featured_image | img_url: 'grande' }});" alt="{{ product.title | escape }}"></div>
+						<div class="tile-image center-bg" style="background-image: url({{ featured_image | img_url: 'large' }});" alt="{{ product.title | escape }}"></div>
 					</div>
 
 					{% if product.images.size > 1 %}
@@ -36,7 +37,8 @@
 				</div><!-- .product-photos -->
 			{% endif %}
 			
-			<div class="product-details {% if product.images.size != 0 %}col-3-4{% endif %}">
+			{% comment %}<div class="product-details {% if product.images.size != 0 %}col-3-4{% endif %}">{% endcomment %}
+			<div class="product-details">
 				
 				<div class="product-meta">
 					<div class="left">
@@ -50,83 +52,55 @@
 						</div>
 					</div><!-- end .right -->
 					<div class="clear"></div>
+
+					{% assign hide_default_title = false %}
+					{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+						{% assign hide_default_title = true %}
+					{% endif %}       
+
+					<div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
+						<div class="left">
+
+						</div><!-- end .left -->
+
+						<div class="right">
+							<select id="product-select" name="id">
+							{% for variant in product.variants %}
+								<option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">
+								{{ variant.title }} - {{ variant.price | money }}
+								</option>
+							{% endfor %}
+							</select>
+						</div><!-- end .right -->
+						<div class="clear"></div>
+
+					</div>        
+								 
+					<div id="backorder" class="hidden">
+						<p>{{ '%s is back-ordered. We will ship it separately in 10 to 15 days.' | replace: '%s', '<span id="selected-variant"></span>' }}</p>
+					</div>
 				</div><!-- end .product-meta -->
-				
-				{% comment %}{% assign product_vendor_handle = product.vendor | handle %}{% endcomment %}
-				{% comment %}
-				Do we have a collection that has the same name as our product vendor name?
-				If we do, let's have the vendor link point to it.
-				If not, we will point to the automatic vendor collection.
-				{% endcomment %}
-{% comment %}				{% if collections[product_vendor_handle].handle == product_vendor_handle %}
-					{% assign vendor_url = collections[product_vendor_handle].url %}
-				{% else %}
-					{% assign vendor_url = product.vendor | url_for_vendor %}
-				{% endif %}
-				<h2 itemprop="brand" class="delta">{{ product.vendor | link_to: vendor_url }}</h2>{% endcomment %}
 				
 				<div id="product-description" class="rte" itemprop="description">
 					{{ product.description }}
-				</div>
-				
-				{% comment %}
-					All themes by Shopify should support the Product Reviews app out of the box.
-					https://apps.shopify.com/product-reviews
-				{% endcomment %}
-				<div id="shopify-product-reviews" data-id="{{ product.id }}">{{ product.metafields.spr.reviews }}</div>
-				
-{% comment %}				<div id="product-price" itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="delta">
-					<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
-					{% if product.available %}
-					<link itemprop="availability" href="http://schema.org/InStock" />
-					{% else %}
-					<link itemprop="availability" href="http://schema.org/OutOfStock" />
-					{% endif %}
-					<p>
-						{% assign variant = product.selected_or_first_available_variant %}
-						{% if product.compare_at_price > product.price %}
-							<span class="product-price on-sale" itemprop="price">{{ variant.price | money }}</span>
-							<s class="product-compare-price">{{ variant.compare_at_price | money }}</s>
-						{% else %}
-							<span class="product-price" itemprop="price">{{ variant.price | money }}</span>
-						{% endif %}
-					</p>
-				</div>{% endcomment %}
-				
-				{% assign hide_default_title = false %}
-				{% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-					{% assign hide_default_title = true %}
-				{% endif %}       
 
-				<div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
-					<select id="product-select" name="id">
-					{% for variant in product.variants %}
-						<option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">
-						{{ variant.title }} - {{ variant.price | money }}
-						</option>
-					{% endfor %}
-					</select>
-				</div>        
-							 
-				<div id="backorder" class="hidden">
-					<p>{{ '%s is back-ordered. We will ship it separately in 10 to 15 days.' | replace: '%s', '<span id="selected-variant"></span>' }}</p>
+					{% if collection and collection.products.count > 1 %}
+						<div class="related-products">
+							<h1>Related Products</h1>
+							<ul class="grid clearfix products-grid">
+								{% assign cur_title = product.title %}
+								{% assign products_per_row = 'five-per-row' %}
+								{% for product in collection.products limit: 6 %}
+									{% if product.title != cur_title %}
+										{% include 'product-grid-item' %}
+									{% endif %}
+								{% endfor %}
+							</ul><!-- end .products-grid -->
+						</div><!-- end .related-products -->
+					{% endif %}
+
 				</div>
-									
-				{% if collection %}
-					{% if collection.previous_product or collection.next_product %}
-					<div>     
-					{% if collection.previous_product %}
-						{% capture prev_url %}{{ collection.previous_product}}#content{% endcapture %}
-						<span class="left">{{ '&larr; Previous Product' | link_to: prev_url }}</span>
-					{% endif %}
-					{% if collection.next_product %}
-						{% capture next_url %}{{ collection.next_product}}#content{% endcapture %}
-						<span class="right">{{ 'Next Product &rarr;' | link_to: next_url }}</span>
-					{% endif %}
-					</div>
-					{% endif %}
-				{% endif %}
-				
+
 			</div><!-- .product-details -->
 			<div class="clear"></div>
 
@@ -134,11 +108,6 @@
 	</div><!-- end .product -->
 
 </div><!-- end .section-wrapper -->
-
-{% comment %}
-	Adding support for product options. See here for details:  
-	http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
-{% endcomment %}
 
 <script>
 	

@@ -1,0 +1,31 @@
+// Browsers Fixes
+
+.mac.ff3 {
+	.site-header .site-nav .nav {
+		li.has-dropdown:hover > a:before {bottom: -20px;}
+		> li.active > a:before {bottom: -21px}
+	}
+	.site-header .site-nav .sub-nav {top: 273px;}
+	
+	nav ul .sub-nav li.active a:before {bottom: -17px;}
+
+	.hours-contact .contact-wrapper #contactFormWrapper .col-2-3 textarea {height: 142px}
+}
+
+.win {
+	.site-header .site-nav .sub-nav {top: 272px;}
+	
+	.site-header .site-nav .nav li {padding: 15px 0 18px;}
+	
+	nav ul .sub-nav li.active a:before {bottom: -18px;}
+
+	.site-header .site-nav .nav {
+		li.has-dropdown:hover > a:before {bottom: -20px;}
+		> li.active > a:before {bottom: -20px}
+	}
+
+	.search-form {
+		input[type="submit"] {top: 4px;}
+		input[type="search"] {padding: 7px 10px;}
+	}
+}

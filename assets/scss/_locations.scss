@@ -1,6 +1,6 @@
 .locations {
 	.location-tile {
-		&:not(:last-child) {margin-bottom: 15px;}
+		&:not(:last-child) {margin-bottom: 10px;}
 		border: 1px solid rgba(black, 0.2);
 		@include border-radius(8px);
 
@@ -23,7 +23,7 @@
 			font-size: 14px;
 			color: rgba(#3e2a20, 0.8);
 			line-height: 1.3;
-			padding: 15px;
+			padding: 25px;
 
 			.name, h1 {
 				font-family: HelveticaLt;	
@@ -54,6 +54,10 @@
 		vertical-align: top;
 		width: 40%;
 	}
+
+	.location-image {
+		@include border-radius(8px 0 0 8px);
+	}
 }
 
 .template-page#locations {
@@ -61,4 +65,16 @@
 		display: none;
 	}
 	.location-details ul:not(:last-child) {margin-bottom: 30px;}
+}
+
+@media #{media-width-res(767)} {
+	.locations .location-tile {
+		> .left {
+			width: 100%;
+			.location-image {
+				height: 180px !important;
+				@include border-radius(8px 8px 0 0);
+			}
+		}		
+	}
 }
